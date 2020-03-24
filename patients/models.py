@@ -62,7 +62,7 @@ class StatusUpdate(models.Model):
 
 
 class PatientHistory(geomodels.Model):
-    patient = models.ForeignKey("Patient", on_delete=models.CASCADE, null=False)
+    patient = models.ForeignKey("Patient", related_name='history', on_delete=models.CASCADE, null=False)
     time_from = models.DateTimeField(null=True)
     time_to = models.DateTimeField(null=True)
     address = models.TextField()
@@ -77,6 +77,9 @@ class PatientHistory(geomodels.Model):
     # Meta fields
     created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self):
+        return f"PatientHistory #{self.id} for patient {self.patient_id}"
 
 
 class Patient(geomodels.Model):

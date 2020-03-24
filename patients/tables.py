@@ -1,6 +1,6 @@
 import django_tables2 as tables
 
-from .models import Report, Patient
+from .models import Report, Patient, PatientHistory
 
 
 class ReportsTable(tables.Table):
@@ -47,6 +47,7 @@ class PatientsTable(tables.Table):
             "current_status",
         )
         attrs = {"class": "table table-responsive"}
+        order_by = "-id"
 
 
 class PatientsExportedTable(tables.Table):
@@ -75,3 +76,21 @@ class PatientsExportedTable(tables.Table):
             "updated_on",
             "contacts"
         )
+
+
+class PatientHistoryTable(tables.Table):
+    time_from = tables.DateTimeColumn(format='d-M-Y h:i A', verbose_name="From", orderable=False)
+    time_to = tables.DateTimeColumn(format='d-M-Y h:i A', verbose_name="To", orderable=False)
+    address = tables.Column(orderable=False)
+    travel_mode = tables.Column(orderable=False)
+
+    class Meta:
+        model = PatientHistory
+        template_name = "django_tables2/bootstrap4.html"
+        fields = (
+            "time_from",
+            "time_to",
+            "address",
+            "travel_mode",
+        )
+        attrs = {"class": "table table-responsive"}
